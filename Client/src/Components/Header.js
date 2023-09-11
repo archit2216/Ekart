@@ -67,7 +67,7 @@ function Header(){
                     }
                     <li className="nav-item">
                         {
-                            isAuthenticated?<Link className="nav-link btn btn-danger" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+                            isAuthenticated?<Link className="nav-link btn btn-danger" onClick={() => logout({ logoutParams: { returnTo: "https://main--extraordinary-torrone-93f172.netlify.app" } })}>
                             Log Out
                             </Link>:
                             <Link onClick={() => loginWithRedirect()} className="nav-link btn btn-primary">Log In</Link>
