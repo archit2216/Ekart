@@ -11,7 +11,7 @@ function Home(){
             <div style={{margin:"50px"}} className="row">
                 <div className="col-sm">
                     <p>Welcome to</p>
-                    <h1>E-commerce Store</h1>
+                    <h1>Ekart</h1>
                     <p>This is a store where you can buy anything anytime anywhere with just one click, with your order delivered at doorstep</p>
                     <Link to="/products"><button className="btn btn-primary">Shop Now</button></Link>
                 </div>
