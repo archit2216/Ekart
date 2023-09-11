@@ -1,0 +1,87 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.featureHeading {
+  background-color: #f2f2f2;
+  padding:50px 0;
+}
+
+.featureProds {
+  display:flex;
+  justify-content:space-around;
+  padding-top:50px;
+}
+
+@media screen and (max-width:635px){
+  .featureProds{
+    display:grid;
+  }
+}
+
+.GridClass{
+  display:"flex";
+  justify-content:space-between;
+  align-content:space-evenly;
+  width:80%;
+}
+
+.HeaderSpan{
+  font-size: 10px;
+}
+
+.MyImageDiv1{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  width:60%;
+}
+
+.MyImageDetail{
+  display:"flex";
+  align-items:center
+}
+
+.ProductCaption{
+  background-color:black;
+  border-radius:5%;
+}
+
+.SortDiv{
+  display:flex;
+  justify-content:space-between;
+  margin-top:5rem;
+  width:80%;
+}
+
+.TrustedDiv{
+  background-color:#f2f2f2;
+  padding:100px 0;
+}
+
+.TrustedInnerDiv{
+  display:flex;
+  justify-content:space-evenly;
+}
+
+.ProductCard{
+  width:11rem;
+  height:20rem;
+  transition: width 0.7s,height 0.7s;
+}
+
+.ProductCard:hover{
+  width:12rem;
+  height:21rem;
+  opacity: 0.7;
+}

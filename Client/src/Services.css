@@ -1,0 +1,12 @@
+.ServicesMain{
+    margin:50px;
+    padding:50px 0;
+}
+.ServicesChild2{
+    display:flex;
+    justify-content:center;
+    margin:10px 20px;
+}
+.ServiceHead{
+    margin-bottom:70px;
+}
