@@ -15,7 +15,7 @@ root.render(
     domain={window.env.REACT_APP_DOMAIN}
     clientId={window.env.REACT_APP_CLIENT_ID}
     authorizationParams={{
-      redirect_uri: window.location.origin
+      redirect_uri: "https://main--extraordinary-torrone-93f172.netlify.app";
     }}>
   <AppProvider>
     <FilterProvider>
