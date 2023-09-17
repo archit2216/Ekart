@@ -53,6 +53,7 @@ const FilterProvider=({children})=>{
         dispatch({type:"FILTER_PRODUCTS"})
         dispatch({type:"SORTING_PRODUCTS"});
     },[products,state.sorting_value,state.filters])
+    
     useEffect(()=>{
         dispatch({type:"Load_Filter_Products",payload:products});
 
