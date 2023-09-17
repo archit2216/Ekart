@@ -3,15 +3,28 @@ import react from "react";
 const cartReducer=(state,action)=>{
     switch(action.type){
         case "SET_CART":
+            let newCart=action.payload;
+            let {newItemVal,newPriceVal}=newCart.reduce((accumulator,currEle)=>{
+                accumulator.newItemVal+=currEle.amount;
+                accumulator.newPriceVal+=(currEle.amount*currEle.price);
+                return accumulator
+            },{newItemVal:0,newPriceVal:0});
+
+            return{
+                ...state,
+                cart:newCart,
+                total_items:newItemVal,
+                total_price:newPriceVal
+            }
             return{
                 ...state,
                 cart:action.payload
             }
         case "ADD_TO_CART":
-            let {id,color,amount,product}=action.payload;
+            let {id,amount,product}=action.payload;
             let existingItem=state.cart.find((currEle)=>{
                 // return currEle.id===id+color;
-                return currEle.id==id
+                return currEle.id===id
             });
 
             if(existingItem){
@@ -19,6 +32,8 @@ const cartReducer=(state,action)=>{
                 if(existingItem.amount>=existingItem.max){
                     existingItem.amount=existingItem.max
                 }
+                let newCart=[...state.cart,cartProduct];
+            console.log(newCart);
                 return {
                     ...state,
                     cart:[...state.cart]
@@ -28,14 +43,13 @@ const cartReducer=(state,action)=>{
             // console.log(color,product)
             let cartProduct={
                 id:id,                  //id+color would make a different id for same product but with a different color code
-                name:product.name,
-                color,
+                name:product.title,
+                // color,
                 amount,
-                image:product.images[0].url,
+                image:product.images[0],
                 price:product.price,
                 max:product.stock
             }
-
             return{
                 ...state,
                 cart:[...state.cart,cartProduct]
@@ -89,18 +103,6 @@ const cartReducer=(state,action)=>{
             return{
                 ...state,
                 cart:choseItem
-            }
-        case "CART_TOTAL_ITEMS":
-            let {newItemVal,newPriceVal}=state.cart.reduce((accumulator,currEle)=>{
-                accumulator.newItemVal+=currEle.amount;
-                accumulator.newPriceVal+=(currEle.amount*currEle.price);
-                return accumulator
-            },{newItemVal:0,newPriceVal:0});
-
-            return{
-                ...state,
-                total_items:newItemVal,
-                total_price:newPriceVal
             }
         default:
             return state;

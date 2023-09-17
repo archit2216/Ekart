@@ -11,13 +11,6 @@ import env from "react-dotenv";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Auth0Provider
-    domain={window.env.REACT_APP_DOMAIN}
-    clientId={window.env.REACT_APP_CLIENT_ID}
-    authorizationParams={{
-      redirect_uri: "https://main--extraordinary-torrone-93f172.netlify.app/"
-    }}>
-      {/* window.location.origin */}
   <AppProvider>
     <FilterProvider>
       <CartProvider>
@@ -25,7 +18,6 @@ root.render(
     </CartProvider>
     </FilterProvider>
     </AppProvider>
-    </Auth0Provider>
 );
 
 

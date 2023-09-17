@@ -4,7 +4,6 @@ import CartAmount from "./CartAmount";
 import { CartContext } from "../Context/cartContext";
 function CartItem(currEle){
     const {removeItem,setDecrease,setIncrease}=useContext(CartContext);
-    console.log(currEle);
     return(
         <>
             <div className="col-1 col-sm-1">

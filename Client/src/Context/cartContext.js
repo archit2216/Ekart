@@ -1,88 +1,44 @@
-import react, { createContext, useEffect, useReducer } from "react";
+import react, { createContext, useEffect, useReducer, useState } from "react";
 import reducer from "../Reducer/cartReducer";
 import { db } from "../Components/Config/config";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { useAuth0 } from "@auth0/auth0-react";
-import { getAuth } from "firebase/auth";
-
-// const auth = getAuth();
-// const USER = auth.currentUser;
-
-// if (USER !== null) {
-//     USER.providerData.forEach((profile) => {
-//     //   console.log("Sign-in provider: " + profile.providerId);
-//     //   console.log("  Provider-specific UID: " + profile.uid);
-//       console.log("  Name: " + profile.name);
-//       console.log("  Email: " + profile.email);
-//       console.log("Cart: ",profile.cart);
-//     //   console.log("  Photo URL: " + profile.photoURL);
-//     });
-//   }
+import {auth } from '../Components/Config/config';
+import { updateDoc} from "firebase/firestore";
 
 const CartContext=createContext()
 
-// const getCartData=()=>{
-    
-//     let newCart=localStorage.getItem("userCart")
-//     if(newCart.length===0){
-//         return [];
-//     }
-
-//     // get
-//     return JSON.parse(newCart)
-// }
-
-
 const CartProvider=({children})=>{
-// const getCartData=async (user)=>{
-//     // const docRef=doc(db,"users",user.sub)
-//     const docRef=db.collection('users').doc(user.sub)
-//     try {
-//         let newCart;
-//         docRef.get().then((doc)=>{
-//             if(doc.exists){
-//                 newCart=(doc.data().cart);
-//             }
-//         })
-//         return newCart;
-//     } catch(error) {
-//         console.log(error)
-//     }
-// }
-
-const getCartData = async (user) => {
+  const user=auth.currentUser;
+  const [loading,setLoading]=useState(true);
+  // console.log("This is current user:",user);
+const getCartData = async () => {
     try {
-      const docRef = db.collection('users').doc(user.sub);
+      const docRef = db.collection('users').doc(user.uid);
       const doc = await docRef.get();
-
       if (doc.exists) {
+        // console.log(doc.data().cart);
+        setLoading(false);
         return doc.data().cart;
       } else {
+        setLoading(false);
         return [];
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
       return [];
     }
   };
 
-
-// const updateCart=async (user)=>{
-//     const cityRef = db.collection('users').doc(user.sub);
-//     const res = await cityRef.update({cart:[...state.cart]});
-//     return res;
-// }
- const updateCart = async (user, cartData) => {
+ const updateCart = async (cartData) => {
     try {
-      const docRef = db.collection('users').doc(user.sub);
-      await docRef.set({ cart: cartData }, { merge: true });
+      // console.log("This is user: ",await user);
+      const docRef = db.collection('users').doc(user.uid);
+      await updateDoc(docRef,{cart:cartData,total_items:cartData.length});
     } catch (error) {
       console.log(error);
     }
   };
 
-    const { user,isAuthenticated,loginWithRedirect} = useAuth0();
-   
     const initialState={
             cart:[],
             total_items:0,
@@ -93,6 +49,7 @@ const getCartData = async (user) => {
 
     const addToCart=(id,amount,product)=>{
         dispatch({type:"ADD_TO_CART",payload:{id,amount,product}});
+        console.log(product);
         const newId=id;
         // console.log(image);
         const image=product.images[0];
@@ -113,7 +70,8 @@ const getCartData = async (user) => {
       }else{
         newCart=[...state.cart,{newId,amount,image,name,max,price}];
       }
-        updateCart(user,newCart);
+      console.log("check this:",newCart);
+        updateCart(newCart);
     }
 
     const removeItem=(id)=>{
@@ -121,12 +79,12 @@ const getCartData = async (user) => {
         let updatedCart=state.cart.filter((currEle)=>{
           return currEle.newId!==id
       })
-        updateCart(user,updatedCart);
+        updateCart(updatedCart);
     }
 
     const ClearCart=()=>{
         dispatch({type:"CLEAR_CART"})
-        updateCart(user,[]);
+        updateCart([]);
     }
 
     const setDecrease=(id)=>{
@@ -134,7 +92,7 @@ const getCartData = async (user) => {
         const newCart=state.cart.map((currEle)=>{
           if(currEle.newId===id){
               let decAmount=currEle.amount-1;
-              if(decAmount==0){
+              if(decAmount===0){
                 decAmount=1;
               }
               return{
@@ -145,7 +103,7 @@ const getCartData = async (user) => {
               return currEle;
           }
       });
-        updateCart(user,newCart);
+        updateCart(newCart);
     }
 
     const setIncrease=(id)=>{
@@ -164,22 +122,24 @@ const getCartData = async (user) => {
               return currEle;
           }
       });
-        updateCart(user,newCart);
+        updateCart(newCart);
     }
-    
-    useEffect(()=>{
-        dispatch({type:"CART_TOTAL_ITEMS"});
-        if(isAuthenticated){
-            getCartData(user).then((newCart)=>{
-                dispatch({type:"SET_CART",payload:newCart});
-            });
-        }else{
-          return ()=>{}
-            // localStorage.setItem("userCart",JSON.stringify(state.cart))            
-        }
-  //Have to stringify because it stores string data only,whereas we had an array here
-    },[state.cart,user])
-    return  <CartContext.Provider value={{...state,addToCart,removeItem,ClearCart,setIncrease,setDecrease}}>
+
+    useEffect(() => {
+      // Load the cart data if the user is authenticated or on page refresh
+      if (user) {
+        getCartData().then((newCart) => {
+          dispatch({ type: "SET_CART", payload: newCart });
+        });
+      } else {
+        // No user logged in, initialize cart as empty
+        dispatch({ type: "SET_CART", payload: [] });
+      }
+    }, [user, getCartData]);
+
+
+
+    return  <CartContext.Provider value={{...state,loading,addToCart,removeItem,ClearCart,setIncrease,setDecrease}}>
     {children}
     </CartContext.Provider>
 }

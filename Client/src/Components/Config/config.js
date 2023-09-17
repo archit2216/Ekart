@@ -1,7 +1,8 @@
 import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-
+import {getAuth} from "firebase/auth";
+import * as firebaseAuth from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAREY4W9QgdJEunbiAdPOl7dWaA_Xe3C7U",
@@ -17,5 +18,9 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 // Use these for db & auth
 const db = firebaseApp.firestore();
-
-export {db};
+const auth=getAuth(firebaseApp);
+// firebaseAuth.setPersistence(auth, firebaseAuth.browserLocalPersistence);
+// firebaseAuth.setPersistence(auth, firebaseAuth.browserSessionPersistence);
+// firebaseAuth.setPersistence(auth, firebaseAuth.indexedDBLocalPersistence); // default
+// firebaseAuth.setPersistence(auth, firebaseAuth.inMemoryPersistence);
+export {db,auth};

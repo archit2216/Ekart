@@ -1,8 +1,10 @@
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 import react from "react";
+import {auth} from './Components/Config/config';
 
 function Contact(){
-    const {user,isAuthenticated}=useAuth0();
+    // const {user,isAuthenticated}=useAuth0();
+    const user=auth.currentUser;
     return(
         <div>
             <h2>Feel free to Contact us</h2>
@@ -11,8 +13,8 @@ function Contact(){
             </div>
             <div className="container">
                 <form action="https://formspree.io/f/mpzgqdpj" method="POST" style={{display:"flex",flexDirection:"column",gap:"3rem"}}>
-                    <input type="text" placeholder="USERNAME" name="username" value={isAuthenticated?user.name:""}  required autoComplete="off"/>
-                    <input type="email" placeholder="EMAIL" name="Email" value={isAuthenticated?user.email:""} required autoComplete="off"/>
+                    <input type="text" placeholder="USERNAME" name="username" value={user?user.name:""}  required autoComplete="off"/>
+                    <input type="email" placeholder="EMAIL" name="Email" value={user?user.email:""} required autoComplete="off"/>
                     <textarea name="Query" rows="10" cols="30" placeholder="ENTER YOUR QUERY" required autoComplete="off"></textarea>
                     <input type="submit" value="SUBMIT" />
                 </form>

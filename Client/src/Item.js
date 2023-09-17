@@ -19,7 +19,7 @@ const API="https://dummyjson.com/products";
 function Item(){
     const {id}=useParams();
     const {getSingleProduct,isSingleLoading,singleProduct}=useContext(AppContext);
-    const {id:alias,title,brand,price,description,category,stock,images,rating,discountPercentage}=singleProduct;
+    const {id:alias,title,brand,price,description,stock,images,rating,discountPercentage}=singleProduct;
     useEffect(()=>{
         // getSingleProduct(`${API}?id=${id}`);
         // console.log(`${API}/${id}`);
