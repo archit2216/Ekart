@@ -74,7 +74,11 @@ function Header(){
                     }
                     <li className="nav-item">
                         {
+<<<<<<< HEAD
                             user?<Link className="nav-link btn btn-danger" onClick={handleLogOut}>
+=======
+                            isAuthenticated?<Link className="nav-link btn btn-danger" onClick={() => logout({ logoutParams: { returnTo: "https://main--extraordinary-torrone-93f172.netlify.app" } })}>
+>>>>>>> 2d35b18d4d0584e865862319e59392b3062abcc1
                             Log Out
                             </Link>:
                             <Link to='/login' className="nav-link btn btn-primary">Log In</Link>
