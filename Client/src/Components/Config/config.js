@@ -19,8 +19,4 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 // Use these for db & auth
 const db = firebaseApp.firestore();
 const auth=getAuth(firebaseApp);
-// firebaseAuth.setPersistence(auth, firebaseAuth.browserLocalPersistence);
-// firebaseAuth.setPersistence(auth, firebaseAuth.browserSessionPersistence);
-// firebaseAuth.setPersistence(auth, firebaseAuth.indexedDBLocalPersistence); // default
-// firebaseAuth.setPersistence(auth, firebaseAuth.inMemoryPersistence);
 export {db,auth};
