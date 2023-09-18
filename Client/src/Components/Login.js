@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useUserAuth} from '../Context/userAuthContext';
-import GoogleButton from 'react-google-button'
+import GoogleIcon from '@mui/icons-material/Google';
 
 // import {auth} from './Config/config';
 
@@ -101,7 +101,8 @@ export default function Login() {
             >
               Log In
             </Button>
-            <GoogleButton onClick={handleGoogleSignIn} fullWidth type='dark'/>
+            {/* <GoogleButton onClick={handleGoogleSignIn} fullWidth type='dark'/> */}
+            <Button onClick={handleGoogleSignIn} variant="contained" fullWidth><GoogleIcon fontSize='small' style={{marginRight:"1rem"}} /> Login with google</Button>
             <Grid>
                 <Link to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
